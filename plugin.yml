@@ -1,0 +1,82 @@
+name: LoginMessagePlus
+main: com.gmail.pthomas1997.loginMessagePlugin.LoginMessagePlugin
+version: 3.0
+commands:
+   staffchat:
+      description: Chat only visible to staff.
+      usage: /staffchat <message>
+      permission: staffchat.send
+      permission-message: You don't have permission!
+      aliases: [staffchat, sc]
+   welcome:
+      description: This is the main command, which shows your message.
+      usage: /welcome
+      permission: loginmessage.welcome
+      permission-message: You don't have permission!
+   rq:
+      description: RageQuit!
+      usage: /rg
+      permission: loginmessage.ragequit
+      permission-message: You don't have permission!
+      aliases: [ragequit]
+   cookie:
+      description: Get a cookie!
+      usage: /cookie
+      permission: loginmessage.cookie
+      permission-message: You don't permission!
+   ignite:
+      description: This command sets you or the target player on fire.
+      usage: /ignite [Player]
+      permission: loginmessage.ignite
+      permission-message: You don't have permission!
+   warn:
+      description: send a warning to a player
+      usage: /warn <name> [reason]
+      permission: loginmessage.warn
+      permission-message: You don't have permission!
+   dump:
+      description: View all logged warnings.
+      usage: /dump
+      permission: loginmessage.warn.dump
+      permission-message: You don't have permission!
+permissions:
+   loginmessage.*:
+     description: Gives access to all LoginMessage commands
+     children:
+       loginmessage.welcome: true
+       loginmessage.ignite: true
+       loginmessage.owner: true
+       loginmessage.sc.*: true
+   loginmessage.coowner:
+     description: co-owner
+   loginmessage.admin: 
+     description: admin
+   loginmessage.mod: 
+     description: mod
+   loginmessage.headmod: 
+     description: head-mod
+   loginmessage.dev: 
+     description: dev
+   loginmessage.builder:
+     description: builder 
+   loginmessage.headbuilder:
+     description: head-builder 
+   loginmessage.headadmin: 
+     description: head-admin
+   loginmessage.guest: 
+     description: guest
+   loginmessage.nokick:
+     default: op
+   loginmessage.plugins:
+     description: can see the plugins list
+   loginmessage.plugins.message:
+     default: op
+   loginmessage.nokick.override:
+     default: true
+   loginmessage.warn.dump:
+     default: op
+   loginmessage.sc.*:
+     description: All staff chat permissions.
+     children:
+       loginmessage.sc.send: true
+       loginmessage.sc.read: true
