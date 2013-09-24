@@ -1,0 +1,47 @@
+package com.gmail.pthomas1997.loginMessagePlugin;
+
+
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
+
+
+public class CookieCommand implements CommandExecutor{
+
+	/**
+	 * onCommand(CommandSender sender, Command cmd, String label, String[] args)
+	 * When executed, if player has permission, they will receive 1 cookie.
+	 */
+	@Override
+	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args){
+
+		if(cmd.getName().equalsIgnoreCase("cookie")){ 
+			if(sender.hasPermission("loginmessage.cookie"));
+			if (sender instanceof Player) {
+				Player p = (Player) sender;
+				p.getInventory();
+				ItemStack is = new ItemStack(Material.COOKIE, 1);
+				PlayerInventory i = p.getInventory();
+				i.addItem(is);
+				p.sendMessage(ChatColor.GREEN+"Mmmmm Cookie!");
+				return true;
+
+			} else {
+
+				sender.sendMessage("You're not a player...");
+				return false;
+			}
+
+
+
+		} 
+		return false; 
+	}
+}
+
+
