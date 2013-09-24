@@ -1,0 +1,17 @@
+LoginMessage: Version 2.1
+Join Message: '%name% has joined the game.'
+'#2': Lower food and health levels on /plugins. True or False.
+Lower Health: 'false'
+Lower Food: 'false'
+Kick Player: 'false'
+Kill Player: 'false'
+'#3': '#Change the /welcome message below.'
+Welcome Message: Change this message in the config file.
+'#4': Use group chat colors?
+Group Colors: 'true'
+First Join Message: Welcome, %name%, to the server!
+First Join Broadcast: '%name% has joined the server for the first time!'
+Welcome Back Message: Welcome back to the server, %name%
+'#5': '#Do Not Change Anything Below This Line! (Don''t do it!)'
+License: '0'
+Version: Public
