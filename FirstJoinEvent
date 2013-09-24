@@ -1,0 +1,40 @@
+package com.gmail.pthomas1997.loginMessagePlugin;
+
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
+
+public class FirstJoinEvent implements Listener {
+
+	/**
+	 * OnPlayerFirstJoinEvent(PlayerJoinEvent e)
+	 * Checks if player has played before, if yes, then sends "Welcome Back Message" and "Join Message"
+	 * If no, then sends "First Join Message" and broadcasts "First Join Broadcast"
+	 * Look for all messages/broadcasts in the config.yml
+	 * @param e
+	 */
+	@EventHandler
+	public void OnPlayerFirstJoinEvent(PlayerJoinEvent e){
+		Player p = (Player)e.getPlayer();
+		if(p.hasPlayedBefore()){
+			String newWelcomeBack = LoginMessagePlugin.getWelcomeBackMessage().replace("%name%", p.getDisplayName());
+			p.sendMessage(ChatColor.BLUE+newWelcomeBack);
+			
+			String newJoinMessage = LoginMessagePlugin.getJoinMessage().replace("%name%", p.getDisplayName());
+			Bukkit.getServer().broadcastMessage(ChatColor.GREEN+newJoinMessage);
+			}
+		else{
+			String newFirstJoinMessage = LoginMessagePlugin.getFirstJoinMessage().replace("%name%", p.getDisplayName());
+			p.sendMessage(ChatColor.BLUE+newFirstJoinMessage);
+
+			String newFirstJoinBroadcast = LoginMessagePlugin.getFirstJoinBroadcast().replace("%name%", p.getDisplayName());
+			Bukkit.getServer().broadcastMessage(ChatColor.BLUE+newFirstJoinBroadcast);
+
+
+		}
+	}
+
+}
