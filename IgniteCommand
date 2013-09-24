@@ -1,0 +1,62 @@
+package com.gmail.pthomas1997.loginMessagePlugin;
+
+import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
+public class IgniteCommand implements CommandExecutor{
+
+	/**
+	 * onCommand(CommandSender sender, Command cmd, String label, String[] args)
+	 * Set yourself on fire (no args)
+	 * Set <player> on fire (args[0])
+	 * @Override
+	 */
+	@Override
+	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args){
+
+		Player s = (Player)sender;
+		if(s.hasPermission("loginmessage.ignite")){
+			if(args.length<1){
+				s.sendMessage("You set yourself on fire! Derp.");
+				s.setFireTicks(5000);
+				s.setHealth(2);
+				return true;
+			}
+			else if(args.length==1){
+
+				String target="";
+				args[0] = target;
+
+
+
+				Player targetp = s.getServer().getPlayer(target);
+				if(targetp==null){
+					s.sendMessage(ChatColor.RED+target+" is not online!");
+					return true;
+				}
+				if(targetp instanceof Player){
+					targetp.sendMessage(ChatColor.YELLOW+s.getDisplayName()+" has set you on fire!");
+					targetp.setFireTicks(5000);
+
+
+					return true;
+				}
+				else {
+					s.sendMessage(ChatColor.RED+"You must be a player to set someone on fire!");
+				}
+			}
+			else {
+				s.sendMessage(ChatColor.RED+"Unknown Command!");
+				return true;
+			}
+
+
+
+		}
+		return false;
+
+	}
+}
