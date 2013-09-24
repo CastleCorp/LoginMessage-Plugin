@@ -1,0 +1,153 @@
+package com.gmail.pthomas1997.loginMessagePlugin;
+
+/*import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;*/
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
+public class WarnCommand extends JavaPlugin implements CommandExecutor {
+
+	// Call methods from LoginMessagePlugin class.
+	public LoginMessagePlugin plugin;
+	public WarnCommand(LoginMessagePlugin plugin){
+		this.plugin = plugin;
+
+	}
+
+	/**
+	 * onCommand(CommandSender sender, Command cmd, String label, String[] args)
+	 * Send warnings to players. 
+	 * Read below for more info.
+	 */
+	@Override
+
+	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args){
+
+
+
+		CommandSender s = sender;
+		if(s.isOp() || s.hasPermission("simplewarn.warn")){
+			// Checks for a player name.
+			if(args.length<1){
+				s.sendMessage("You must indicate a player. /warn <player> [reason]");
+				return false;
+			}
+			// If only player name is specified, it will send the default warning message.
+			else if(args.length>=1){
+				String target = args[0];
+				Player targetp = s.getServer().getPlayer(target);
+				String reason="Not specified.";
+				if (args.length > 1)
+					reason = args[1];
+
+				// Checks that player is online.
+				if(targetp==null){
+					s.sendMessage(ChatColor.RED+target+" is not online!");
+					return true;
+				}
+
+
+				targetp.sendMessage(ChatColor.RED+"A moderator has sent you a warning!"+ChatColor.BLUE+"\nWith the reason: "+reason);
+				s.sendMessage(ChatColor.RED+targetp.getName()+ChatColor.BLUE+" has been warned.");
+				for(Player p:Bukkit.getOnlinePlayers()){
+
+					p.sendMessage(ChatColor.RED+targetp.getDisplayName()+ChatColor.BLUE+" has received a warning for: "+ChatColor.RED+reason);
+					Bukkit.getLogger().info(ChatColor.RED+targetp.getDisplayName()+ChatColor.BLUE+" has received a warning for: "+ChatColor.RED+reason);
+
+					Date date = new Date();
+					DateFormat df = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
+					String fDate = df.format(date);
+					String warning = targetp.getDisplayName()+" | "+reason+" | "+fDate;
+					s.sendMessage(ChatColor.AQUA+"Warning logged as: "+ChatColor.RED+warning);
+					plugin.logToFile(warning);
+
+					Bukkit.getLogger().info("Warning Notice: "+"\nSent by: "+s.getName()+"\nSent to: "+targetp.getDisplayName()+"\nReason :"+reason+"\nLogged as :"+warning);
+				
+					if(p.hasPermission("simplewarn.warn.check")){
+						p.sendMessage(ChatColor.RED+"Warning Notice: "+ChatColor.AQUA+"\nSent by: "+ChatColor.RED+s.getName()+ChatColor.AQUA+"\nSent to: "+ChatColor.RED+targetp.getDisplayName()+ChatColor.AQUA+"\nReason :"+ChatColor.RED+reason+ChatColor.AQUA+"\nLogged as :"+ChatColor.RED+warning);
+					}
+					else{
+						s.sendMessage(ChatColor.AQUA+"Warning logged as: "+ChatColor.RED+warning);
+						plugin.logToFile(warning);
+
+						Bukkit.getLogger().info("Warning Notice: "+"\nSent by: "+s.getName()+"\nSent to: "+targetp.getDisplayName()+"\nReason :"+reason+"\nLogged as :"+warning);
+						
+						if(p.hasPermission("simplewarn.warn.check")){
+							p.sendMessage(ChatColor.RED+"Warning Notice: "+ChatColor.AQUA+"\nSent by: "+ChatColor.RED+s.getName()+ChatColor.AQUA+"\nSent to: "+ChatColor.RED+targetp.getDisplayName()+ChatColor.AQUA+"\nReason :"+ChatColor.RED+reason+ChatColor.AQUA+"\nLogged as :"+ChatColor.RED+warning);
+						}
+					}
+				}
+
+			}
+
+
+
+
+
+			return true;
+		}
+		else {
+			s.sendMessage(ChatColor.RED+"Unknown Command!");
+			return true;
+		}
+	}
+	
+// End of useful code.
+// ----------------------------------------------------------------------------------------------------------------
+	
+	// *UNIMPLEMENTED* 
+	// This is still a concept. It does not work, and is not used (yet).
+	/*public void logToPlayerFile(String message)
+
+	{
+
+		try
+		{
+			File LoginMessage = getDataFolder();
+			if(!LoginMessage.exists())
+			{
+				LoginMessage.mkdir();
+				getLogger().info("Making Folder LoginMessage");
+			}
+
+			File saveTo = new File(getDataFolder().getPath() + targetp.getDisplayName()+"Data.txt");
+			if (!saveTo.exists())
+			{
+				saveTo.createNewFile();
+				getLogger().info("Making File"+targetp.getDisplayName()+"Data.txt");
+			}
+
+
+			FileWriter fw = new FileWriter(saveTo, true);
+
+			PrintWriter pw = new PrintWriter(fw);
+
+			pw.println(message);
+
+			pw.flush();
+
+			pw.close();
+
+		} catch (IOException e)
+		{
+
+			e.printStackTrace();
+
+		}
+
+	}*/
+
+
+
+
+}
