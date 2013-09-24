@@ -1,0 +1,44 @@
+package com.gmail.pthomas1997.loginMessagePlugin;
+
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
+
+public class OnPlayerChatEvent implements Listener {
+
+	/**
+	 * onPlayerChatEvent(AsyncPlayerChatEvent e)
+	 * @param e
+	 * Sets chat colors, based on player permissions.
+	 */
+	@EventHandler
+	public void onPlayerChatEvent(AsyncPlayerChatEvent e){
+		Player player=(Player)e.getPlayer();
+		if(LoginMessagePlugin.getGroupColors().equalsIgnoreCase("true"));
+
+		if(player.isOp() || player.hasPermission("loginmessage.owner") || player.hasPermission("loginmessage.coowner")){
+			e.setMessage(ChatColor.GOLD+e.getMessage());
+		}
+
+		else if(!player.isOp()&&player.hasPermission("loginmessage.admin") || player.hasPermission("loginmessage.headadmin")){
+			e.setMessage(ChatColor.BLUE+e.getMessage());}
+
+		else if(!player.isOp()&&player.hasPermission("loginmessage.mod") || player.hasPermission("loginmessage.headmod")){
+			e.setMessage(ChatColor.YELLOW+e.getMessage());}
+
+		else if(!player.isOp()&&player.hasPermission("loginmessage.dev")){
+			e.setMessage(ChatColor.DARK_PURPLE+e.getMessage());}
+
+		else if(!player.isOp()&&player.hasPermission("loginmessage.builder") || player.hasPermission("loginmessage.headbuilder")){
+			e.setMessage(ChatColor.GREEN+e.getMessage());}
+
+		else if(!player.isOp()&&player.hasPermission("loginmessage.member")){
+			e.setMessage(ChatColor.AQUA+e.getMessage());}
+
+		else{
+			e.setMessage(ChatColor.GRAY+e.getMessage());
+		}
+	}
+}
