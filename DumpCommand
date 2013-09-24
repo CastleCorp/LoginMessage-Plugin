@@ -1,0 +1,88 @@
+package com.gmail.pthomas1997.loginMessagePlugin;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
+import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+
+import com.gmail.pthomas1997.loginMessagePlugin.LoginMessagePlugin;
+
+public class DumpCommand implements CommandExecutor {
+	
+	public LoginMessagePlugin plugin;
+	public DumpCommand(LoginMessagePlugin plugin){
+		this.plugin = plugin;
+	}
+
+	/**
+	 * onCommand(CommandSender sender, Command cmd, String label, String[] args)
+	 * If command executed with no arguments, it will send all of the data from warningData.txt
+	 * If command executed with argument 1 as the name of a player, it SHOULD send data from warningData.txt that contains the player name specified
+	 */
+	@Override
+	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args){
+
+		CommandSender s = sender;
+		if(s.isOp() || s.hasPermission("loginmessage.warn.dump")){
+			if(args.length<1){
+				// Returns all data. Tested, works well.
+				BufferedReader br = null;
+				try {
+					String line = "";
+					br = new BufferedReader(new FileReader("plugins/LoginMessagePlus/warningData.txt"));
+
+					while ((line = br.readLine()) != null) {
+						s.sendMessage(ChatColor.AQUA+"Warnings logged to /Plugins/LoginMessage/warningData.txt:"+ChatColor.RED+"\n"+ChatColor.RED+line);
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+				} finally {
+					try {
+						if (br != null)br.close();
+					} catch (IOException ex) {
+						ex.printStackTrace();
+					}
+
+				}
+
+			}
+			// Not fully tested. Theoretically works, no errors found. 
+			else if(args.length==1){
+				String target = args[0];
+				
+				BufferedReader br = null;
+				try {
+					String line = "";
+					br = new BufferedReader(new FileReader("plugins/LoginMessagePlus/warningData.txt"));
+
+					while ((line = br.readLine()) != null && br.readLine().contains(target)) {
+						s.sendMessage(ChatColor.AQUA+"Warnings logged to warningData.txt either sent to or by"+ChatColor.RED+target+ChatColor.AQUA+" :"+ChatColor.RED+"\n"+ChatColor.RED+line);	
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+				} finally {
+					try {
+						if (br != null)br.close();
+					} catch (IOException ex) {
+						ex.printStackTrace();
+					}
+
+				}
+				s.sendMessage(ChatColor.RED+"Player: "+target+" was not found in the warning log files.");
+			}
+			
+			return true;
+
+
+		}
+		
+		return false;
+
+	}
+
+}
+
